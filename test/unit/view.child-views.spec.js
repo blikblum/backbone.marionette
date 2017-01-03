@@ -642,9 +642,10 @@ describe('layoutView', function() {
       });
 
       it('after initialization, the view\'s regions should be scoped to its parent view', function() {
-        expect(this.layoutViewInstance.getRegion('regionOne').$el).to.have.length(1);
-        expect(this.layoutViewInstance.getRegion('regionOne').$el.is(this.$inScopeRegion)).to.equal(true);
-        expect(this.layoutViewInstance.getRegion('regionOne').$el.is(this.$outOfScopeRegion)).to.equal(false);
+        var regionOne = this.layoutViewInstance.getRegion('regionOne');
+        expect(regionOne.$el).to.have.length(1);
+        expect(regionOne.$el.is(this.$inScopeRegion)).to.equal(true);
+        expect(regionOne.$el.is(this.$outOfScopeRegion)).to.equal(false);
       });
     });
   });

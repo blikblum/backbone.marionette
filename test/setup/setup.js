@@ -15,6 +15,7 @@ module.exports = function() {
     global.getComputedStyle = window.getComputedStyle;
     require('zepto');
     jQuery = global.window.$
+    jQuery.prototype = jQuery.fn
   } else {
     jQuery = require('jquery');
   }
