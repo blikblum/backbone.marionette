@@ -8,14 +8,25 @@ module.exports = function() {
     require.cache[pathScore] = require.cache[pathDash];
   }
 
-  var lib = process.env.USE_LODASH ? 'lodash' : 'underscore';
 
+  var jQuery;
+
+  if (process.env.USE_ZEPTO) {
+    global.getComputedStyle = window.getComputedStyle;
+    require('zepto');
+    jQuery = global.window.$
+  } else {
+    jQuery = require('jquery');
+  }
+  
+  var lib = process.env.USE_LODASH ? 'lodash' : 'underscore';
+  var domLib = process.env.USE_ZEPTO ? 'zepto' : 'jquery';  
   var _ = require('underscore');
 
   console.log('Using ' + lib + ': ' + _.VERSION);
+  console.log('Using ' + domLib);
 
   var Backbone = require('backbone');
-  var jQuery = require('jquery');
   Backbone.$ = jQuery;
   Backbone.Radio = require('backbone.radio');
   var Marionette = require('../../src/backbone.marionette');

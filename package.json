@@ -25,7 +25,8 @@
     "test": "gulp",
     "test-browser": "gulp test-browser",
     "test-cross-browser": "gulp test-cross-browser",
-    "test-lodash": "USE_LODASH=1 gulp"
+    "test-lodash": "USE_LODASH=1 gulp",
+    "test-zepto": "USE_ZEPTO=1 gulp"
   },
   "author": {
     "name": "Derick Bailey",
@@ -90,6 +91,7 @@
     "run-sequence": "1.2.2",
     "sinon": "1.17.6",
     "sinon-chai": "2.8.0",
-    "underscore": "1.8 - 1.8.3"
+    "underscore": "1.8 - 1.8.3",
+    "zepto": "^1.2.0"
   }
 }
