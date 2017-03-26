@@ -5,11 +5,8 @@ import { isEnabled } from '../config/features';
 // Internal method to create an event handler for a given `triggerDef` like
 // 'click:foo'
 function buildViewTrigger(view, triggerDef) {
-  if (_.isString(triggerDef)) {
-    triggerDef = {event: triggerDef};
-  }
 
-  const eventName = triggerDef.event;
+  const eventName = _.isString(triggerDef) ? triggerDef : triggerDef.event;
 
   let shouldPreventDefault = !!triggerDef.preventDefault;
 
