@@ -66,21 +66,17 @@ export default {
   },
 
   _addRegion(region, name) {
-    this.triggerMethod('before:add:region', this, name, region);
-
     region._parentView = this;
     region._name = name;
 
     this._regions[name] = region;
-
-    this.triggerMethod('add:region', this, name, region);
   },
 
   // Remove a single region from the View, by name
   removeRegion(name) {
     const region = this._regions[name];
 
-    this._removeRegion(region, name);
+    region.destroy();
 
     return region;
   },
@@ -89,17 +85,9 @@ export default {
   removeRegions() {
     const regions = this._getRegions();
 
-    _.each(this._regions, this._removeRegion.bind(this));
+    _.each(this._regions, region => region.destroy());
 
     return regions;
-  },
-
-  _removeRegion(region, name) {
-    this.triggerMethod('before:remove:region', this, name, region);
-
-    region.destroy();
-
-    this.triggerMethod('remove:region', this, name, region);
   },
 
   // Called in a region's destroy
