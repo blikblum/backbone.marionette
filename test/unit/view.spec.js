@@ -275,37 +275,6 @@ describe('item view', function() {
     });
   });
 
-  describe('when re-rendering an View that is already shown', function() {
-    let onDomRefreshStub;
-    let TestView;
-    let view;
-    let region;
-    let TestRegion;
-
-    beforeEach(function() {
-      onDomRefreshStub = this.sinon.stub();
-
-      TestView = View.extend({
-        template: templateStub,
-        onDomRefresh: onDomRefreshStub
-      });
-
-      this.setFixtures('<div id="region"></div>');
-      TestRegion = Region.extend({
-        el: '#region'
-      });
-
-      view = new TestView();
-      region = new TestRegion();
-      region.show(view);
-      view.render();
-    });
-
-    it('should trigger a dom:refresh event', function() {
-      expect(onDomRefreshStub).to.have.been.calledTwice;
-    });
-  });
-
   describe('has a valid inheritance chain back to Backbone.View', function() {
     let constructor;
 

@@ -221,7 +221,6 @@ describe('region', function() {
         onRender: sinon.stub(),
         onBeforeAttach: sinon.stub(),
         onAttach: sinon.stub(),
-        onDomRefresh: sinon.stub(),
         onClick: sinon.stub()
       });
 
@@ -283,8 +282,7 @@ describe('region', function() {
         expect(view.onBeforeRender).to.have.been.calledBefore(view.onRender);
         expect(view.onRender).to.have.been.calledBefore(view.onBeforeAttach);
         expect(view.onBeforeAttach).to.have.been.calledBefore(view.onAttach);
-        expect(view.onAttach).to.have.been.calledBefore(view.onDomRefresh);
-        expect(view.onDomRefresh).to.have.been.calledBefore(region.onShow);
+        expect(view.onAttach).to.have.been.calledBefore(region.onShow);
         expect(region.onShow).to.have.been.called;
       });
     });

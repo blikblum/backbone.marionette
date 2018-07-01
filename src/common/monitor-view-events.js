@@ -32,17 +32,6 @@ function shouldDetach(view) {
   return true;
 }
 
-function triggerDOMRefresh(view) {
-  if (view._isAttached && view._isRendered) {
-    view.triggerMethod('dom:refresh', view);
-  }
-}
-
-function triggerDOMRemove(view) {
-  if (view._isAttached && view._isRendered) {
-    view.triggerMethod('dom:remove', view);
-  }
-}
 
 function handleBeforeAttach() {
   triggerMethodChildren(this, 'before:attach', shouldTriggerAttach);
@@ -50,24 +39,14 @@ function handleBeforeAttach() {
 
 function handleAttach() {
   triggerMethodChildren(this, 'attach', shouldAttach);
-  triggerDOMRefresh(this);
 }
 
 function handleBeforeDetach() {
   triggerMethodChildren(this, 'before:detach', shouldTriggerDetach);
-  triggerDOMRemove(this);
 }
 
 function handleDetach() {
   triggerMethodChildren(this, 'detach', shouldDetach);
-}
-
-function handleBeforeRender() {
-  triggerDOMRemove(this);
-}
-
-function handleRender() {
-  triggerDOMRefresh(this);
 }
 
 // Monitor a view's state, propagating attach/detach events to children and firing dom:refresh
@@ -82,8 +61,6 @@ function monitorViewEvents(view) {
     'attach': handleAttach,
     'before:detach': handleBeforeDetach,
     'detach': handleDetach,
-    'before:render': handleBeforeRender,
-    'render': handleRender
   });
 }
 

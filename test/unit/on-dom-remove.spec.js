@@ -4,7 +4,7 @@ import Events from '../../src/mixins/events';
 import View from '../../src/view';
 import Region from '../../src/region';
 
-describe('onDomRemove', function() {
+describe.skip('onDomRemove', function() {
   'use strict';
 
   let attachedRegion;
