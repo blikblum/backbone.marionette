@@ -10,6 +10,8 @@ import json from 'rollup-plugin-json';
 import banner from './_banner';
 import pkg from '../package.json';
 
+pkg.name = 'backbone.marionette';
+
 const srcPath = 'src/';
 
 const rollupGlobals = {
