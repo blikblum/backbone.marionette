@@ -26,9 +26,6 @@ import DomApi from '../config/dom';
 const ViewMixin = {
   Dom: DomApi,
 
-  supportsRenderLifecycle: true,
-  supportsDestroyLifecycle: true,
-
   _isDestroyed: false,
 
   isDestroyed() {

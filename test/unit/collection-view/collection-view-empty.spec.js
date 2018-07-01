@@ -7,7 +7,7 @@ import View from '../../../src/view';
 import Region from '../../../src/region';
 import Events from '../../../src/mixins/events';
 
-describe('CollectionView -  Empty', function() {
+describe.skip('CollectionView -  Empty', function() {
   let MyEmptyView;
   let MyCollectionView;
 

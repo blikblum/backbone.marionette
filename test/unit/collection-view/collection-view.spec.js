@@ -7,7 +7,7 @@ import CollectionView from '../../../src/collection-view';
 import View from '../../../src/view';
 import Events from '../../../src/mixins/events';
 
-describe('CollectionView', function() {
+describe.skip('CollectionView', function() {
   let MyChildView;
   let MyBbChildView;
 

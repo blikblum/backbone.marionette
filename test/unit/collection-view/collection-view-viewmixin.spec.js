@@ -5,7 +5,7 @@ import Backbone from 'backbone';
 import CollectionView from '../../../src/collection-view';
 import View from '../../../src/view';
 
-describe('CollectionView - ViewMixin', function() {
+describe.skip('CollectionView - ViewMixin', function() {
 
   describe('when initializing a CollectionView', function() {
     let collectionView;

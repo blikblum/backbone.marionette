@@ -5,7 +5,7 @@ import Backbone from 'backbone';
 import CollectionView from '../../../src/collection-view';
 import View from '../../../src/view';
 
-describe('CollectionView - Sorting', function() {
+describe.skip('CollectionView - Sorting', function() {
   let collection;
   let MyChildView;
   let MyCollectionView;

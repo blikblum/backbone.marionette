@@ -212,14 +212,11 @@ describe('region', function() {
         onEmpty: sinon.stub(),
       });
 
-      MyView = Backbone.View.extend({
+      MyView = View.extend({
         events: {
           'click': 'onClick'
         },
-        render: function() {
-          $(this.el).html('some content');
-        },
-        destroy: function() {},
+        template: _.template('<b>Hello</b>'),
         onBeforeRender: function() {},
         onRender: sinon.stub(),
         onBeforeAttach: sinon.stub(),
@@ -227,8 +224,6 @@ describe('region', function() {
         onDomRefresh: sinon.stub(),
         onClick: sinon.stub()
       });
-
-      _.extend(MyView.prototype, Events);
 
       sinon.stub(MyView.prototype, 'onBeforeRender', (function() { return region.currentView; }).bind(this));
 
@@ -332,6 +327,7 @@ describe('region', function() {
     describe('when setting the "replaceElement" class option', function() {
       let regionHtml;
       let $parentEl;
+      let view3;
 
       beforeEach(function() {
         this.sinon.spy(region, '_restoreEl');
@@ -340,11 +336,12 @@ describe('region', function() {
         $parentEl = region.$el.parent();
         regionHtml = $parentEl.html();
         region.replaceElement = true;
-        region.show(view);
+        view3 = new MyView();
+        region.show(view3);
       });
 
       it('should append the view HTML to the parent "el"', function() {
-        expect($parentEl).to.contain.$html(view.$el.html());
+        expect($parentEl).to.contain.$html(view3.$el.html());
       });
 
       it('should remove the region\'s "el" from the DOM', function() {
@@ -362,7 +359,7 @@ describe('region', function() {
       });
 
       it('should not restore if the "currentView.el" has been remove from the DOM', function() {
-        view.remove();
+        view3.remove();
         region._restoreEl();
         expect(region.currentView.el.parentNode).is.falsy;
       });
@@ -373,7 +370,7 @@ describe('region', function() {
         });
 
         it('should remove the view from the parent', function() {
-          expect($parentEl).to.not.contain.$html(view.$el.html());
+          expect($parentEl).to.not.contain.$html(view3.$el.html());
         });
 
         it('should restore the region\'s "el" to the DOM', function() {
@@ -387,7 +384,7 @@ describe('region', function() {
         });
 
         it('should remove the view from the parent', function() {
-          expect($parentEl).to.not.contain.$html(view.$el.html());
+          expect($parentEl).to.not.contain.$html(view3.$el.html());
         });
 
         it('should restore the region\'s "el" to the DOM', function() {
@@ -513,18 +510,14 @@ describe('region', function() {
         }
       });
 
-      SubView = Backbone.View.extend({
-        render: function() {
-          $(this.el).html('some content');
-        },
+      SubView = View.extend({
+        template: _.template('some content'),
 
         initialize: function() {
           innerRegionRenderSpy = sinon.stub();
           this.on('render', innerRegionRenderSpy);
         }
       });
-
-      _.extend(SubView.prototype, Events);
 
       this.setFixtures('<div id="region"></div>');
       region = new MyRegion();
@@ -1133,56 +1126,6 @@ describe('region', function() {
     it('should throw an error', function() {
       const errorMessage = 'The view passed is undefined and therefore invalid. You must pass a view instance to show.';
       expect(insertUndefined).to.throw(errorMessage);
-    });
-  });
-
-  describe('when showing a Backbone.View child view', function() {
-    let BbView;
-    let region;
-    let view;
-
-    beforeEach(function() {
-      BbView = Backbone.View.extend({
-        onBeforeRender: this.sinon.stub(),
-        onRender: this.sinon.stub(),
-        onBeforeDestroy: this.sinon.stub(),
-        onDestroy: this.sinon.stub()
-      });
-      _.extend(BbView.prototype, Events);
-
-      region = new Region({
-        el: $('<div></div>')
-      });
-      view = new BbView();
-      region.show(view);
-    });
-
-    it('should fire before:render and render on the child view on show', function() {
-      expect(view.onBeforeRender)
-        .to.have.been.calledOnce
-        .and.to.have.been.calledOn(view)
-        .and.to.have.been.calledWith(view);
-      expect(view.onRender)
-        .to.have.been.calledOnce
-        .and.to.have.been.calledOn(view)
-        .and.to.have.been.calledWith(view);
-    });
-
-    describe('when emptying while containing the Backbone.View', function() {
-      beforeEach(function() {
-        region.empty();
-      });
-
-      it('should fire before:destroy and destroy on the child view on show', function() {
-        expect(view.onBeforeDestroy)
-          .to.have.been.calledOnce
-          .and.to.have.been.calledOn(view)
-          .and.to.have.been.calledWith(view);
-        expect(view.onDestroy)
-          .to.have.been.calledOnce
-          .and.to.have.been.calledOn(view)
-          .and.to.have.been.calledWith(view);
-      });
     });
   });
 

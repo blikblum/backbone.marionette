@@ -8,7 +8,7 @@ import ChildViewContainer from '../../../src/child-view-container';
 import View from '../../../src/view';
 import Region from '../../../src/region';
 
-describe('CollectionView Children', function() {
+describe.skip('CollectionView Children', function() {
   const collection = new Backbone.Collection([
     { id: 1 },
     { id: 2 },

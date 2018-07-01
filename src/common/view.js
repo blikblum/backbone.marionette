@@ -3,16 +3,8 @@ export function renderView(view) {
     return;
   }
 
-  if (!view.supportsRenderLifecycle) {
-    view.triggerMethod('before:render', view);
-  }
-
   view.render();
   view._isRendered = true;
-
-  if (!view.supportsRenderLifecycle) {
-    view.triggerMethod('render', view);
-  }
 }
 
 export function destroyView(view, disableDetachEvents) {
@@ -21,11 +13,6 @@ export function destroyView(view, disableDetachEvents) {
     view._disableDetachEvents = disableDetachEvents;
     view.destroy();
     return;
-  }
-
-  // Destroy for non-Marionette Views
-  if (!view.supportsDestroyLifecycle) {
-    view.triggerMethod('before:destroy', view);
   }
 
   const shouldTriggerDetach = view._isAttached && !disableDetachEvents;
@@ -42,8 +29,4 @@ export function destroyView(view, disableDetachEvents) {
   }
 
   view._isDestroyed = true;
-
-  if (!view.supportsDestroyLifecycle) {
-    view.triggerMethod('destroy', view);
-  }
 }

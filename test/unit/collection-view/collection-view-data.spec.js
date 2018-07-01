@@ -6,7 +6,7 @@ import Backbone from 'backbone';
 import CollectionView from '../../../src/collection-view';
 import View from '../../../src/view';
 
-describe('CollectionView Data', function() {
+describe.skip('CollectionView Data', function() {
   let MyCollectionView;
 
   beforeEach(function() {

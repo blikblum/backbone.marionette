@@ -3,7 +3,7 @@ import Backbone from 'backbone';
 import CollectionView from '../../../src/collection-view';
 import View from '../../../src/view';
 
-describe('CollectionView - childViewContainer', function() {
+describe.skip('CollectionView - childViewContainer', function() {
   let MyCollectionView;
   let ChildView;
   let template;
