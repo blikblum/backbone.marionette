@@ -41,10 +41,6 @@ export default {
       return;
     }
 
-    // Normalize region selectors hash to allow
-    // a user to use the @ui. syntax.
-    regions = this.normalizeUIValues(regions, 'el');
-
     // Add the regions definitions to the regions property
     this.regions = _.extend({}, this.regions, regions);
 

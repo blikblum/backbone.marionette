@@ -83,22 +83,6 @@ _.extend(Behavior.prototype, CommonMixin, DelegateEntityEventsMixin, TriggersMix
     return this;
   },
 
-  bindUIElements() {
-    this._bindUIElements();
-
-    return this;
-  },
-
-  unbindUIElements() {
-    this._unbindUIElements();
-
-    return this;
-  },
-
-  getUI(name) {
-    return this._getUI(name);
-  },
-
   // Handle `modelEvents`, and `collectionEvents` configuration
   delegateEntityEvents() {
     this._delegateEntityEvents(this.view.model, this.view.collection);
@@ -117,7 +101,7 @@ _.extend(Behavior.prototype, CommonMixin, DelegateEntityEventsMixin, TriggersMix
 
     // Normalize behavior events hash to allow
     // a user to use the @ui. syntax.
-    const behaviorEvents = this.normalizeUIKeys(_.result(this, 'events'));
+    const behaviorEvents = _.result(this, 'events');
 
     // binds the handler to the behavior and builds a unique eventName
     return _.reduce(behaviorEvents, (events, behaviorHandler, key) => {
@@ -137,7 +121,7 @@ _.extend(Behavior.prototype, CommonMixin, DelegateEntityEventsMixin, TriggersMix
 
     // Normalize behavior triggers hash to allow
     // a user to use the @ui. syntax.
-    const behaviorTriggers = this.normalizeUIKeys(_.result(this, 'triggers'));
+    const behaviorTriggers = _.result(this, 'triggers');
 
     return this._getViewTriggers(this.view, behaviorTriggers);
   }

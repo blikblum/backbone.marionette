@@ -21,7 +21,6 @@ import Events from './mixins/events';
 
 import MnObject from './object';
 import View from './view';
-import CollectionView from './collection-view';
 import Behavior from './behavior';
 import Region from './region';
 import Application from './application';
@@ -48,18 +47,15 @@ export const triggerMethod = proxy(_triggerMethod);
 // Configuration
 
 export const setDomApi = function(mixin) {
-  CollectionView.setDomApi(mixin);
   Region.setDomApi(mixin);
   View.setDomApi(mixin);
 };
 export const setRenderer = function(renderer) {
-  CollectionView.setRenderer(renderer);
   View.setRenderer(renderer);
 };
 
 export {
   View,
-  CollectionView,
   MnObject,
   Region,
   Behavior,

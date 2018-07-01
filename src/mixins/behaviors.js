@@ -93,14 +93,6 @@ export default {
     this._behaviors = _.without(this._behaviors, behavior);
   },
 
-  _bindBehaviorUIElements() {
-    _invoke(this._behaviors, 'bindUIElements');
-  },
-
-  _unbindBehaviorUIElements() {
-    _invoke(this._behaviors, 'unbindUIElements');
-  },
-
   _triggerEventOnBehaviors(eventName, view, options) {
     _invoke(this._behaviors, 'triggerMethod', eventName, view, options);
   }

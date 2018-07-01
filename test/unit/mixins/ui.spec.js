@@ -1,6 +1,6 @@
 import View from '../../../src/view';
 
-describe('normalizeUIKeys', function() {
+describe.skip('normalizeUIKeys', function() {
   'use strict';
 
   describe('When creating a generic View class without a ui hash, and creating two generic view sublcasses with a ui hash', function() {

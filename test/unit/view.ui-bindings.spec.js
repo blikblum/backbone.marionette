@@ -1,4 +1,4 @@
-describe('view ui elements', function() {
+describe.skip('view ui elements', function() {
   'use strict';
 
   beforeEach(function() {

@@ -8,7 +8,6 @@ import CommonMixin from './common';
 import DelegateEntityEventsMixin from './delegate-entity-events';
 import TemplateRenderMixin from './template-render';
 import TriggersMixin from './triggers';
-import UIMixin from './ui';
 import { isEnabled } from '../config/features';
 import DomApi from '../config/dom';
 
@@ -20,7 +19,6 @@ import DomApi from '../config/dom';
 // - collectionEvents
 // - modelEvents
 // - triggers
-// - ui
 
 
 const ViewMixin = {
@@ -65,12 +63,12 @@ const ViewMixin = {
   // Allows Backbone.View events to utilize `@ui.` selectors
   _getEvents(events) {
     if (events) {
-      return this.normalizeUIKeys(events);
+      return events;
     }
 
     if (!this.events) { return; }
 
-    return this.normalizeUIKeys(_.result(this, 'events'));
+    return _.result(this, 'events');
   },
 
   // Configure `triggers` to forward DOM events to view
@@ -79,7 +77,7 @@ const ViewMixin = {
     if (!this.triggers) { return; }
 
     // Allow `triggers` to be configured as a function
-    const triggers = this.normalizeUIKeys(_.result(this, 'triggers'));
+    const triggers = _.result(this, 'triggers');
 
     // Configure the triggers, prevent default
     // action and stop propagation of DOM events
@@ -116,9 +114,6 @@ const ViewMixin = {
       this.triggerMethod('before:detach', this);
     }
 
-    // unbind UI elements
-    this.unbindUIElements();
-
     // remove the view from the DOM
     this._removeElement();
 
@@ -150,26 +145,6 @@ const ViewMixin = {
   _removeElement() {
     this.$el.off().removeData();
     this.Dom.detachEl(this.el, this.$el);
-  },
-
-  // This method binds the elements specified in the "ui" hash
-  bindUIElements() {
-    this._bindUIElements();
-    this._bindBehaviorUIElements();
-
-    return this;
-  },
-
-  // This method unbinds the elements specified in the "ui" hash
-  unbindUIElements() {
-    this._unbindUIElements();
-    this._unbindBehaviorUIElements();
-
-    return this;
-  },
-
-  getUI(name) {
-    return this._getUI(name);
   },
 
   // Cache `childViewEvents` and `childViewTriggers`
@@ -214,6 +189,6 @@ const ViewMixin = {
   }
 };
 
-_.extend(ViewMixin, BehaviorsMixin, CommonMixin, DelegateEntityEventsMixin, TemplateRenderMixin, TriggersMixin, UIMixin);
+_.extend(ViewMixin, BehaviorsMixin, CommonMixin, DelegateEntityEventsMixin, TemplateRenderMixin, TriggersMixin);
 
 export default ViewMixin;

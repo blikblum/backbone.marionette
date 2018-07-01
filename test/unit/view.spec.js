@@ -1,5 +1,4 @@
 import Backbone from 'backbone';
-import Region from '../../src/region';
 import View from '../../src/view';
 
 describe('item view', function() {
@@ -43,10 +42,7 @@ describe('item view', function() {
     beforeEach(function() {
       this.setFixtures('<div id="foo"><span class="element">bar</span></div>');
       view = new View({
-        el: '#foo',
-        ui: {
-          element: '.element'
-        }
+        el: '#foo'
       });
     });
 
@@ -60,10 +56,6 @@ describe('item view', function() {
 
     it('should contain the DOM content', function() {
       expect(view.el.innerHTML).to.contain('<span class="element">bar</span>');
-    });
-
-    it('should bind ui elements', function() {
-      expect(view.ui.element.text()).to.contain('bar');
     });
   });
 
@@ -106,7 +98,6 @@ describe('item view', function() {
     let serializeDataSpy;
     let mixinTemplateContextSpy;
     let attachElContentSpy;
-    let bindUIElementsSpy;
     let view;
 
     beforeEach(function() {
@@ -129,7 +120,7 @@ describe('item view', function() {
       serializeDataSpy = this.sinon.spy(view, 'serializeData');
       mixinTemplateContextSpy = this.sinon.spy(view, 'mixinTemplateContext');
       attachElContentSpy = this.sinon.spy(view, 'attachElContent');
-      bindUIElementsSpy = this.sinon.spy(view, 'bindUIElements');
+
 
       view.render();
     });
@@ -144,10 +135,6 @@ describe('item view', function() {
 
     it('should not call an "onRender" method on the view', function() {
       expect(onRenderStub).to.not.have.been.called;
-    });
-
-    it('should not call bindUIElements', function() {
-      expect(bindUIElementsSpy).to.not.have.been.called;
     });
 
     it('should not add in data or template context', function() {

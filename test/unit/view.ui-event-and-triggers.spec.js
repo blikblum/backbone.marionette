@@ -1,4 +1,4 @@
-describe('view ui event trigger configuration', function() {
+describe.skip('view ui event trigger configuration', function() {
   'use strict';
 
   describe('@ui syntax within events and triggers', function() {

@@ -402,55 +402,6 @@ describe('Behaviors Mixin', function() {
     });
   });
 
-  describe('#_bindBehaviorUIElements', function() {
-    let behaviorsInstance;
-    let FooBehavior;
-    let BarBehavior;
-
-    beforeEach(function() {
-      behaviorsInstance = new Behaviors();
-      FooBehavior = Behavior.extend({});
-      BarBehavior = Behavior.extend({});
-
-      this.sinon.spy(FooBehavior.prototype, 'bindUIElements');
-      this.sinon.spy(BarBehavior.prototype, 'bindUIElements');
-
-      behaviorsInstance.behaviors = {foo: FooBehavior, bar: BarBehavior};
-      behaviorsInstance._initBehaviors();
-    });
-
-    it('should invoke bindUIElements', function() {
-      behaviorsInstance._bindBehaviorUIElements();
-
-      expect(FooBehavior.prototype.bindUIElements).to.have.been.calledOnce;
-      expect(BarBehavior.prototype.bindUIElements).to.have.been.calledOnce;
-    });
-  });
-
-  describe('#_unbindBehaviorUIElements', function() {
-    let behaviorsInstance;
-    let FooBehavior;
-    let BarBehavior;
-
-    beforeEach(function() {
-      behaviorsInstance = new Behaviors();
-      FooBehavior = Behavior.extend({});
-      BarBehavior = Behavior.extend({});
-
-      this.sinon.spy(FooBehavior.prototype, 'unbindUIElements');
-      this.sinon.spy(BarBehavior.prototype, 'unbindUIElements');
-
-      behaviorsInstance.behaviors = {foo: FooBehavior, bar: BarBehavior};
-      behaviorsInstance._initBehaviors();
-    });
-
-    it('should invoke unbindUIElements', function() {
-      behaviorsInstance._unbindBehaviorUIElements();
-
-      expect(FooBehavior.prototype.unbindUIElements).to.have.been.calledOnce;
-      expect(BarBehavior.prototype.unbindUIElements).to.have.been.calledOnce;
-    });
-  });
 
   describe('#_triggerEventOnBehaviors', function() {
     let behaviorsInstance;

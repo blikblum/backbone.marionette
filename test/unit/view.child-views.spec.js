@@ -554,39 +554,6 @@ describe('layoutView', function() {
     });
   });
 
-  describe('when defining region selectors using @ui. syntax', function() {
-    beforeEach(function() {
-      var UIView = Backbone.Marionette.View.extend({
-        template: this.template,
-        regions: {
-          war: '@ui.war',
-          mario: {
-            el: '@ui.mario'
-          },
-          princess: {
-            el: '@ui.princess'
-          }
-        },
-        ui: {
-          war: '.craft',
-          mario: '.bros',
-          princess: '.toadstool'
-        }
-      });
-      this.layoutView = new UIView();
-    });
-
-    it('should apply the relevant @ui. syntax selector to a simple string value', function() {
-      expect(this.layoutView.getRegion('war')).to.exist;
-    });
-    it('should apply the relevant @ui. syntax selector to selector in a region definition object', function() {
-      expect(this.layoutView.getRegion('mario')).to.exist;
-    });
-    it('should apply the relevant @ui. syntax selector to el in a region definition object', function() {
-      expect(this.layoutView.getRegion('princess')).to.exist;
-    });
-  });
-
   describe('when a layout has regions', function() {
     beforeEach(function() {
       this.layout = new this.View();

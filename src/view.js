@@ -21,8 +21,7 @@ const ClassOptions = [
   'regions',
   'template',
   'templateContext',
-  'triggers',
-  'ui'
+  'triggers'
 ];
 
 // Used by _getImmediateChildren
@@ -62,15 +61,11 @@ const View = Backbone.View.extend({
     this._isRendered = this.Dom.hasContents(this.el);
     this._isAttached = this.Dom.hasEl(document.documentElement, this.el);
 
-    if (this._isRendered) {
-      this.bindUIElements();
-    }
-
     return this;
   },
 
   // If a template is available, renders it into the view's `el`
-  // Re-inits regions and binds UI.
+  // Re-inits regions.
   render() {
     const template = this.getTemplate();
 
@@ -85,7 +80,6 @@ const View = Backbone.View.extend({
     }
 
     this._renderTemplate(template);
-    this.bindUIElements();
 
     this._isRendered = true;
     this.triggerMethod('render', this);

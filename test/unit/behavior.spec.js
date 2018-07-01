@@ -1,6 +1,5 @@
 import _ from 'underscore';
 import Behavior from '../../src/behavior';
-import Region from '../../src/region';
 import View from '../../src/view';
 import CollectionView from '../../src/collection-view';
 import { bindEvents } from '../../src/backbone.marionette';
@@ -399,242 +398,6 @@ describe('Behavior', function() {
     });
   });
 
-  describe('behavior UI', function() {
-    let fooBehavior;
-    let onRenderStub;
-    let onBeforeAttachStub;
-    let onAttachStub;
-    let onDestroyStub;
-    let onFooClickStub;
-    let onBarClickStub;
-    let behaviorSpies;
-    let FooView;
-
-    beforeEach(function() {
-      onRenderStub = this.sinon.stub();
-      onBeforeAttachStub = this.sinon.stub();
-      onAttachStub = this.sinon.stub();
-      onDestroyStub = this.sinon.stub();
-      onFooClickStub = this.sinon.stub();
-      onBarClickStub = this.sinon.stub();
-
-      behaviorSpies = {
-        foo: Behavior.extend({
-          ui: {foo: '.foo'},
-          initialize: function() {fooBehavior = this;},
-          events: {
-            'click @ui.foo': 'onFooClick',
-            'click @ui.bar': 'onBarClick'
-          },
-
-          testViewUI: function() { this.ui.bar.trigger('test'); },
-          testBehaviorUI: function() { this.ui.foo.trigger('test'); },
-          onRender: onRenderStub,
-          onBeforeAttach: onBeforeAttachStub,
-          onAttach: onAttachStub,
-          onDestroy: onDestroyStub,
-          onFooClick: onFooClickStub,
-          onBarClick: onBarClickStub
-        })
-      };
-
-      FooView = View.extend({
-        template: _.template('<div class="foo"></div><div class="bar"></div>'),
-        ui: {bar: '.bar'},
-        behaviors: [behaviorSpies.foo]
-      });
-    });
-
-    describe('should call onAttach when inside a CollectionView', function() {
-      let region;
-      let fooCollection;
-      let fooCollectionView;
-
-      beforeEach(function() {
-        const FooCollectionView = CollectionView.extend({
-          childView: FooView
-        });
-
-        fooCollection = new Backbone.Collection([{}]);
-        fooCollectionView = new FooCollectionView({collection: fooCollection});
-
-        this.setFixtures('<div id="region"></div>');
-
-        region = new Region({
-          el: '#region'
-        });
-      });
-
-      it('should call onAttach when inside a CollectionView', function() {
-        region.show(fooCollectionView);
-
-        expect(onAttachStub).to.have.been.called;
-      });
-
-      it('should call onAttach when already shown and reset', function() {
-        region.show(fooCollectionView);
-        fooCollection.reset([{id: 1}, {id: 2}]);
-
-        expect(onAttachStub.callCount).to.equal(3);
-      });
-
-      it('should call onAttach when a single model is added and the collectionView is already shown', function() {
-        region.show(fooCollectionView);
-        fooCollection.add({id: 3});
-
-        expect(onAttachStub.callCount).to.equal(2);
-      });
-    });
-
-    describe('view should be able to override predefined behavior ui', function() {
-      let barView;
-
-      beforeEach(function() {
-        const BarView = View.extend({
-          template: _.template('<div class="zip"></div><div class="bar"></div>'),
-          ui: {
-            bar: '.bar',
-            foo: '.zip' // override foo selector behavior
-          },
-          behaviors: [behaviorSpies.foo]
-        });
-
-        barView = new BarView();
-        barView.render();
-      });
-
-      it('should handle behavior ui click event', function() {
-        barView.$el.find('.zip').click();
-
-        expect(onFooClickStub).to.have.been.calledOnce.and.calledOn(fooBehavior);
-      });
-
-      it('should handle view ui click event', function() {
-        barView.$el.find('.bar').click();
-
-        expect(onBarClickStub).to.have.been.calledOnce.and.calledOn(fooBehavior);
-      });
-    });
-
-    describe('within a view', function() {
-      let fooView;
-
-      it('should not clobber the event prototype', function() {
-        fooView = new FooView();
-
-        expect(behaviorSpies.foo.prototype.events).to.have.property('click @ui.bar', 'onBarClick');
-      });
-
-      it('should handle click events after calling delegateEvents', function() {
-        fooView = new FooView();
-        fooView.render();
-        fooView.delegateEvents();
-
-        expect(fooBehavior.ui.foo.click.bind(fooView.ui.bar)).to.not.throw();
-        expect(fooView.ui.bar.click.bind(fooView.ui.bar)).to.not.throw();
-      });
-
-      it('should set the behavior UI element', function() {
-        fooView = new FooView();
-        fooView.render();
-
-        expect(onRenderStub).to.have.been.calledOnce;
-      });
-
-      it('should make the view\'s ui hash available to callbacks', function() {
-        fooView = new FooView();
-        fooView.render();
-
-        expect(fooBehavior.testViewUI.bind(fooBehavior)).to.not.throw();
-      });
-
-      it('should make the behavior\'s ui hash available to callbacks', function() {
-        fooView = new FooView();
-        fooView.render();
-
-        expect(fooBehavior.testBehaviorUI.bind(fooBehavior)).to.not.throw();
-      });
-
-      describe('the $el', function() {
-        beforeEach(function() {
-          fooView = new FooView();
-          fooView.render();
-        });
-
-        it('should handle behavior ui click event', function() {
-          fooView.$el.find('.foo').click();
-
-          expect(onFooClickStub).to.have.been.calledOnce.and.calledOn(fooBehavior);
-        });
-
-        it('should handle view ui click event', function() {
-          fooView.$el.find('.bar').click();
-
-          expect(onBarClickStub).to.have.been.calledOnce.and.calledOn(fooBehavior);
-        });
-
-        it('has a getUI method which returns the selector', function() {
-          expect(fooBehavior.getUI('foo')).to.have.length(1);
-        });
-      });
-
-      describe('the el', function() {
-        beforeEach(function() {
-          fooView = new FooView();
-          fooView.render();
-        });
-
-        it('should handle behavior ui click event', function() {
-          $(fooView.el).find('.foo').click();
-
-          expect(onFooClickStub).to.have.been.calledOnce.and.calledOn(fooBehavior);
-        });
-
-        it('should handle view ui click event', function() {
-          $(fooView.el).find('.bar').click();
-
-          expect(onBarClickStub).to.have.been.calledOnce.and.calledOn(fooBehavior);
-        });
-      });
-    });
-
-    describe('within a layout', function() {
-      let barView;
-
-      beforeEach(function() {
-        this.setFixtures('<div id="layout"></div>');
-
-        const BarView = View.extend({
-          el: '#layout',
-          template: _.template('<div class="baz"></div>'),
-          regions: {bazRegion: '.baz'}
-        });
-
-        barView = new BarView();
-        barView.render();
-      });
-
-      it('should call onBeforeAttach', function() {
-        barView.getRegion('bazRegion').show(new FooView());
-
-        expect(onBeforeAttachStub).to.have.been.calledOnce;
-      });
-
-      it('should call onAttach', function() {
-        barView.getRegion('bazRegion').show(new FooView());
-
-        expect(onAttachStub).to.have.been.calledOnce;
-      });
-
-      it('should call onDestroy', function() {
-        barView.getRegion('bazRegion').show(new FooView());
-        barView.destroy();
-
-        expect(onDestroyStub).to.have.been.calledOnce;
-      });
-    });
-  });
-
   describe('behavior instance events', function() {
     let listenToChangeStub;
     let onFooStub;
@@ -869,16 +632,7 @@ describe('Behavior', function() {
       });
 
       behavior = new MyBehavior();
-
-      this.sinon.spy(behavior, 'normalizeUIKeys');
       this.sinon.spy(behavior, '_getEvents');
-    });
-
-    it('should pass normalizeUIKeys the results of events', function() {
-      behavior._getEvents();
-      expect(behavior.normalizeUIKeys)
-        .to.have.been.calledOnce
-        .and.calledWith(eventHandlers);
     });
 
     it('should convert named handlers to bound instance handlers', function() {
@@ -905,10 +659,6 @@ describe('Behavior', function() {
       beforeEach(function() {
         behavior.events = null;
         behavior._getEvents();
-      });
-
-      it('should not normalize the keys', function() {
-        expect(behavior.normalizeUIKeys).to.not.have.been.called;
       });
 
       it('should return undefined', function() {

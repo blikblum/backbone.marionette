@@ -12,7 +12,6 @@ import Events from '../../src/mixins/events';
 
 import MnObject from '../../src/object';
 import View from '../../src/view';
-import CollectionView from '../../src/collection-view';
 import Behavior from '../../src/behavior';
 import Region from '../../src/region';
 import Application from '../../src/application';
@@ -29,7 +28,6 @@ describe('backbone.marionette', function() {
   describe('Named Exports', function() {
     const namedExports = {
       View,
-      CollectionView,
       MnObject,
       Region,
       Behavior,
@@ -144,7 +142,6 @@ describe('backbone.marionette', function() {
 
   describe('#setDomApi', function() {
     const DomClasses = {
-      CollectionView,
       Region,
       View
     };
@@ -177,7 +174,6 @@ describe('backbone.marionette', function() {
     });
 
     const RendererClasses = {
-      CollectionView,
       View
     };
 
