@@ -727,9 +727,6 @@ const CollectionView = Backbone.View.extend({
     }
 
     this.triggerMethod('before:destroy:children', this);
-    if (this.monitorViewEvents === false) {
-      this.Dom.detachContents(this.el, this.$el);
-    }
 
     this._removeChildViews(this._children._views);
 

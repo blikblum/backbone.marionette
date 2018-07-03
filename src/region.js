@@ -114,13 +114,8 @@ _.extend(Region.prototype, CommonMixin, {
     parentView._proxyChildViewEvents(view);
   },
 
-  // If the regions parent view is not monitoring its attach/detach events
-  _shouldDisableMonitoring() {
-    return this._parentView && this._parentView.monitorViewEvents === false;
-  },
-
   _attachView(view, options = {}) {
-    const shouldTriggerAttach = !view._isAttached && this.Dom.hasEl(document.documentElement, this.el) && !this._shouldDisableMonitoring();
+    const shouldTriggerAttach = !view._isAttached && this.Dom.hasEl(document.documentElement, this.el);
     const shouldReplaceEl = typeof options.replaceElement === 'undefined' ? !!_.result(this, 'replaceElement') : !!options.replaceElement;
 
     if (shouldTriggerAttach) {
@@ -313,7 +308,7 @@ _.extend(Region.prototype, CommonMixin, {
       return view;
     }
 
-    destroyView(view, this._shouldDisableMonitoring());
+    destroyView(view);
     return view;
   },
 
@@ -338,7 +333,7 @@ _.extend(Region.prototype, CommonMixin, {
   },
 
   _detachView(view) {
-    const shouldTriggerDetach = view._isAttached && !this._shouldDisableMonitoring();
+    const shouldTriggerDetach = view._isAttached;
     const shouldRestoreEl = this._isReplaced;
     if (shouldTriggerDetach) {
       view.triggerMethod('before:detach', view);
