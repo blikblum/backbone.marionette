@@ -12,7 +12,6 @@ import getNamespacedEventName from './utils/get-namespaced-event-name';
 import CommonMixin from './mixins/common';
 import DelegateEntityEventsMixin from './mixins/delegate-entity-events';
 import TriggersMixin from './mixins/triggers';
-import UIMixin from './mixins/ui';
 
 const ClassOptions = [
   'collectionEvents',
@@ -52,7 +51,7 @@ Behavior.extend = extend;
 // Behavior Methods
 // --------------
 
-_.extend(Behavior.prototype, CommonMixin, DelegateEntityEventsMixin, TriggersMixin, UIMixin, {
+_.extend(Behavior.prototype, CommonMixin, DelegateEntityEventsMixin, TriggersMixin, {
   cidPrefix: 'mnb',
 
   // This is a noop method intended to be overridden
