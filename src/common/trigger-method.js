@@ -34,7 +34,7 @@ const getOnMethodName = function(event) {
 export default function triggerMethod(event) {
   // get the method name from the event name
   const methodName = getOnMethodName(event);
-  const method = getOption.call(this, methodName);
+  const method = this[methodName];
   let result;
 
   // call the onMethodName if it exists
