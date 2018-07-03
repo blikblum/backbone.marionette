@@ -671,16 +671,6 @@ describe('region', function() {
           '") has already been destroyed and cannot be used.'));
     });
 
-    describe('and destroyView is called', function() {
-      beforeEach(function() {
-        region.destroyView(view);
-      });
-
-      it('should not call view.destroy', function() {
-        expect(view.destroy).to.have.not.been.called;
-      })
-    })
-
   });
 
   describe('when a view is already destroyed and showing another', function() {
@@ -839,55 +829,6 @@ describe('region', function() {
 
     it('should not be swapping view', function() {
       expect(isSwappingOnEmpty).to.be.false;
-    });
-  });
-
-  describe('when destroying the current view and it does not have a "destroy" method', function() {
-    let MyRegion;
-    let MyView;
-    let view;
-    let region;
-
-    beforeEach(function() {
-      MyRegion = Region.extend({
-        el: '<div></div>'
-      });
-
-      MyView = Backbone.View.extend({
-        render: function() {
-          $(this.el).html('some content');
-        }
-      });
-      _.extend(MyView.prototype, Events);
-
-      view = new MyView();
-      this.sinon.spy(view, '_removeElement');
-      region = new MyRegion();
-      region.show(view);
-      region.empty();
-    });
-
-    it('should call "_removeElement" on the view', function() {
-      expect(view._removeElement).to.have.been.called;
-    });
-
-    it('should set "_isDestroyed" on the view', function() {
-      expect(view._isDestroyed).to.be.true;
-    });
-
-    describe('and then attempting to show the view again in the Region', function() {
-      let showFunction;
-
-      beforeEach(function() {
-        showFunction = function() {
-          region.show(view);
-        };
-      });
-
-      it('should throw an error.', function() {
-        const errorMessage = 'View (cid: "' + view.cid + '") has already been destroyed and cannot be used.';
-        expect(showFunction).to.throw(errorMessage);
-      });
     });
   });
 

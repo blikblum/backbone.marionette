@@ -4,7 +4,7 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import MarionetteError from './utils/error';
-import { renderView, destroyView } from './common/view';
+import { renderView } from './common/view';
 import monitorViewEvents from './common/monitor-view-events';
 import ChildViewContainer from './child-view-container';
 import Region from './region';
@@ -704,12 +704,7 @@ const CollectionView = Backbone.View.extend({
   },
 
   _destroyChildView(view) {
-    if (view._isDestroyed) {
-      return;
-    }
-
-    const shouldDisableEvents = this.monitorViewEvents === false;
-    destroyView(view, shouldDisableEvents);
+    view.destroy();
   },
 
   // called by ViewMixin destroy

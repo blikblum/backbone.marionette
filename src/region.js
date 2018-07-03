@@ -6,7 +6,7 @@ import Backbone from 'backbone';
 import MarionetteError from './utils/error';
 import extend from './utils/extend';
 import monitorViewEvents from './common/monitor-view-events';
-import { renderView, destroyView } from './common/view';
+import { renderView } from './common/view';
 import CommonMixin from './mixins/common';
 import View from './view';
 import DomApi, { setDomApi } from './config/dom';
@@ -302,20 +302,10 @@ _.extend(Region.prototype, CommonMixin, {
     this._parentView.stopListening(view);
   },
 
-  // Non-Marionette safe view.destroy
-  destroyView(view) {
-    if (view._isDestroyed) {
-      return view;
-    }
-
-    destroyView(view);
-    return view;
-  },
-
   // Override this method to determine what happens when the view
   // is removed from the region when the view is not being detached
   removeView(view) {
-    this.destroyView(view);
+    view.destroy();
   },
 
   // Empties the Region without destroying the view
